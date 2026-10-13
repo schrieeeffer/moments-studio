@@ -1,0 +1,14 @@
+[
+  {
+    "name": "inter",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/inter/Inter[opsz,wght].ttf",
+    "license": "SIL Open Font License 1.1",
+    "bytes": 15284
+  },
+  {
+    "name": "roboto",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/roboto/Roboto[wdth,wght].ttf",
+    "license": "SIL Open Font License 1.1",
+    "bytes": 16672
+  }
+]

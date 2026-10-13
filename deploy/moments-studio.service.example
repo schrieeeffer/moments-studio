@@ -1,0 +1,22 @@
+[Unit]
+Description=Moments Studio static editor
+After=network.target
+
+[Service]
+Type=simple
+# Create this account and set the application directory before using the unit.
+User=moments
+Group=moments
+WorkingDirectory=/opt/moments-studio
+Environment=PORT=8088
+ExecStart=/usr/bin/node /opt/moments-studio/server.cjs
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+UMask=0027
+
+[Install]
+WantedBy=multi-user.target

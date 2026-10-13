@@ -1,0 +1,62 @@
+[
+  {
+    "id": "ios",
+    "source": "one-time AI generation, screenshot reference only",
+    "reference": "Screenshot reference used during development (not redistributed)",
+    "image": "/assets/status-bars-v2/ios.png",
+    "size": [
+      305,
+      96
+    ]
+  },
+  {
+    "id": "xiaomi",
+    "source": "one-time AI generation, screenshot reference only",
+    "reference": "Screenshot reference used during development (not redistributed)",
+    "image": "/assets/status-bars-v2/xiaomi.png",
+    "size": [
+      379,
+      96
+    ]
+  },
+  {
+    "id": "huawei",
+    "source": "one-time AI generation, screenshot reference only",
+    "reference": "Screenshot reference used during development (not redistributed)",
+    "image": "/assets/status-bars-v2/huawei.png",
+    "size": [
+      487,
+      96
+    ]
+  },
+  {
+    "id": "oppo",
+    "source": "one-time AI generation, screenshot reference only",
+    "reference": "Screenshot reference used during development (not redistributed)",
+    "image": "/assets/status-bars-v2/oppo.png",
+    "size": [
+      224,
+      96
+    ]
+  },
+  {
+    "id": "vivo",
+    "source": "one-time AI generation, screenshot reference only",
+    "reference": "Screenshot reference used during development (not redistributed)",
+    "image": "/assets/status-bars-v2/vivo.png",
+    "size": [
+      236,
+      96
+    ]
+  },
+  {
+    "id": "honor",
+    "source": "one-time AI generation, screenshot reference only",
+    "reference": "Screenshot reference used during development (not redistributed)",
+    "image": "/assets/status-bars-v2/honor.png",
+    "size": [
+      270,
+      96
+    ]
+  }
+]

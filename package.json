@@ -1,0 +1,22 @@
+{
+  "name": "moments-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.cjs",
+    "assets": "node scripts/build-assets.mjs",
+    "check": "node --check public/app.js && node --check public/status-bars.js && node --check server.cjs"
+  },
+  "dependencies": {
+    "@dicebear/core": "^9.2.4",
+    "@dicebear/collection": "^9.2.4",
+    "jszip": "^3.10.1"
+  },
+  "description": "圈图：无需运行时 AI 的朋友圈长图排版、头像选择与批量导出工具",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/schrieeeffer/moments-studio.git"
+  }
+}

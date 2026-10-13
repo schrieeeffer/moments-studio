@@ -1,0 +1,18 @@
+node_modules/
+*.zip
+*.log
+test-output/
+source-assets/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+# Local deployment files and one-off packaging helpers
+moments-studio.service
+scripts/package-*.py
+scripts/build-avatar-credits.py

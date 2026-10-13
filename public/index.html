@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="粘贴文案，选择头像，预览并批量导出朋友圈推广排版。无需 AI。">
+  <title>圈图 · 朋友圈排版工作台</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%230e7768'/%3E%3Cpath d='M11 12h18v13H19l-6 5v-5h-2z' fill='none' stroke='white' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/assets/jszip.min.js" defer></script><script src="/status-bars.js" defer></script><script src="/app.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-icon">圈</span><div><strong>圈图</strong><span>朋友圈排版工作台</span></div></div>
+  <div class="top-actions"><span id="save-status" class="save-status">内容仅保存在此浏览器</span><button class="button outline" id="reset">重置示例</button><button class="button primary" id="export-current">下载当前 PNG</button></div>
+</header>
+<main class="workspace">
+  <section class="editor panel" aria-label="编辑内容">
+    <div class="panel-head"><div><span class="eyebrow">01 / 内容</span><h1>把文案放进画面</h1></div><span class="small-tag">实时排版</span></div>
+    <form id="editor-form" autocomplete="off">
+      <div class="section-title">发布者</div>
+      <div class="profile-editor"><button type="button" id="choose-avatar" class="avatar-choice" aria-label="从头像库选择发布者头像"><img id="poster-avatar" alt="发布者头像"><span>更换</span></button><div class="grow"><label for="nickname">昵称</label><div class="inline-input"><input id="nickname" maxlength="18" value="柚见晴天"><button type="button" id="random-name" title="随机昵称" aria-label="随机昵称">↻</button></div><button type="button" class="text-button" id="upload-avatar-button">上传自己的头像</button><input type="file" id="upload-avatar" accept="image/png,image/jpeg,image/webp" hidden></div></div>
+      <label for="post">发布文案 <span id="post-count" class="count"></span></label><textarea id="post" rows="3" maxlength="700">把想分享的内容，排成一张清晰的长图。</textarea>
+      <div class="section-title spaced">链接卡片 <label class="switch-label"><input type="checkbox" id="show-card" checked><span>显示</span></label></div>
+      <div id="card-fields"><textarea id="card-title" rows="2" maxlength="180" aria-label="链接卡片文案">点击查看活动介绍与参与方式。</textarea><div class="card-cover-controls"><span class="muted">可上传原链接的封面</span><button type="button" class="text-button" id="upload-cover-button">选择封面</button><button type="button" class="text-button" id="clear-cover" hidden>移除</button><input type="file" id="upload-cover" accept="image/png,image/jpeg,image/webp" hidden></div></div>
+      <div class="section-title spaced">评论文案 <span class="muted">与发布者使用同一头像</span></div>
+      <label for="comment1">第一条</label><textarea id="comment1" rows="2" maxlength="400">分享给感兴趣的朋友，一起看看。</textarea>
+      <label for="comment2">第二条</label><textarea id="comment2" rows="3" maxlength="400">需要了解详情的朋友，可以联系发布者。</textarea>
+      <div class="input-help">原文直接排版，不生成或改写文案。</div>
+      <details class="advanced" open><summary>时间、电量与点赞</summary>
+        <div class="field-grid"><div><label for="status-time">左上角时间</label><input type="time" id="status-time" value="16:38"></div><div><label for="battery">电量 (%)</label><input type="number" id="battery" min="1" max="100" value="76"></div><div><label for="comment-time">首条评论时间</label><input type="time" id="comment-time" value="15:24"></div><div><label for="gap">评论间隔</label><select id="gap"><option value="1">1 分钟</option><option value="2" selected>2 分钟</option></select></div></div>
+        <div class="range-label"><label for="likes">点赞人数</label><output id="likes-value">12 人</output></div><input type="range" id="likes" min="6" max="35" value="12">
+        <button type="button" class="button outline full" id="random-current">随机换一组头像与参数</button>
+        <p class="input-help">评论统一显示“昨天”；点赞头像在单张内不重复。</p>
+      </details>
+    </form>
+  </section>
+  <section class="preview-zone" aria-label="图片预览">
+    <div class="preview-toolbar"><span><span class="preview-dot"></span>实时预览</span><button class="text-button" id="view-full">查看大图</button></div>
+    <div id="canvas-shell" class="canvas-shell"><canvas id="preview" aria-label="朋友圈排版预览"></canvas><div id="loading" class="loading">正在载入头像库…</div></div>
+    <div class="preview-meta"><span id="dimensions">1080 × 2340 px</span><span>PNG · 清晰原尺寸</span></div>
+    <p class="preview-note" id="watermark-note">已开启水印，可在右侧输出设置中关闭。</p>
+    <div class="variants-head"><strong>本次方案</strong><span id="variant-count">1 张</span></div><div id="variants" class="variants"></div>
+  </section>
+  <aside class="settings panel" aria-label="批量与导出设置">
+    <div class="panel-head"><div><span class="eyebrow">02 / 输出</span><h2>尺寸与批量</h2></div></div>
+    <div class="status-settings">
+      <label for="status-style">顶部通知栏风格 <span class="small-tag">14 款</span></label>
+      <select id="status-style">
+<optgroup label="iOS"><option value="ios-classic">iOS · 简洁</option><option value="ios-percent">iOS · 电量百分比</option><option value="ios-focus">iOS · 专注模式</option></optgroup><optgroup label="小米"><option value="miui-dualsim">小米 · 双卡 5G</option><option value="hyperos-speed">小米 · 网速与通知</option></optgroup><optgroup label="华为 HarmonyOS"><option value="harmony-clean">华为 · 简洁双卡</option><option value="harmony-speed">华为 · 网速与百分比</option></optgroup><optgroup label="OPPO ColorOS"><option value="coloros-horizontal">ColorOS · 横向电池</option><option value="coloros-vertical">ColorOS · 竖向电池</option><option value="coloros-ring">ColorOS · 圆环电池</option></optgroup><optgroup label="vivo OriginOS"><option value="origin-standard">vivo · 外置百分比</option><option value="origin-speed">vivo · 网速与静音</option></optgroup><optgroup label="荣耀 MagicOS"><option value="magic-pure">荣耀 · 纯净模式</option><option value="magic-notify">荣耀 · 通知与蓝牙</option></optgroup>
+</select>
+      <canvas id="status-preview" aria-label="当前顶部通知栏风格预览"></canvas>
+      <p id="status-description" class="input-help"></p>
+      <button class="button outline full" id="open-status-styles">查看并选择 14 款风格</button>
+      <p class="input-help"><span id="status-scope">批量逐张随机风格；手动选风格只修改当前方案。</span><a href="/statusbar-sources.html" target="_blank" rel="noopener">查看截图与参考来源</a></p>
+    </div>
+    <label for="size">画布尺寸</label><select id="size"><option value="1080,2340">1080 × 2340 · 19.5:9</option><option value="1080,2400">1080 × 2400 · 20:9</option><option value="1200,2670">1200 × 2670 · 长屏</option><option value="1170,2532">1170 × 2532 · 长屏</option><option value="1080,2520">1080 × 2520 · 21:9</option></select><p class="input-help">内容较长时自动延长画布，保留全部文字。</p>
+    <label class="checkbox-line"><input id="watermark" type="checkbox" checked> 添加水印</label><p class="input-help">取消勾选后，预览和全部导出图片都不添加水印。</p>
+    <div class="library-card"><div class="library-stack"><img src="/assets/avatars/001.jpg" alt=""><img src="/assets/avatars/045.jpg" alt=""><img src="/assets/avatars/093.jpg" alt=""></div><strong id="avatar-total">360 个内置头像</strong><p>200 张已替换：写真人像、二次元、萌宠、风景、花草、静物与街景；另增 60 张日本动漫角色头像</p><button class="button outline full" id="open-library">浏览头像库</button></div>
+    <div class="section-title spaced">批量规则</div>
+    <label for="batch-count">生成数量</label><input id="batch-count" type="number" min="1" max="50" step="1" value="5" inputmode="numeric" aria-describedby="batch-help"><p id="batch-help" class="input-help">可输入 1–50 张。手机建议每批不超过 20 张，电脑不超过 50 张；更多图片可分批生成。</p>
+    <label>随机时间范围</label><div class="time-range"><input type="time" id="time-start" value="11:00" aria-label="随机时间下限"><span>—</span><input type="time" id="time-end" value="22:00" aria-label="随机时间上限"></div>
+    <label>点赞人数范围</label><div class="time-range"><input type="number" id="likes-min" min="6" max="35" value="6" aria-label="最少点赞人数"><span>—</span><input type="number" id="likes-max" min="6" max="35" value="25" aria-label="最多点赞人数"></div>
+    <label class="checkbox-line"><input id="random-status" type="checkbox" checked> 每张随机选择通知栏风格</label>
+      <label class="checkbox-line"><input id="random-size" type="checkbox" checked> 每张随机选取画布尺寸</label>
+    <label class="checkbox-line"><input id="random-identity" type="checkbox" checked> 每张更换发布者昵称、头像</label>
+    <label for="avatar-pool">随机头像范围</label><select id="avatar-pool"><option value="all">全部混合 · 360 张</option><option value="anime">日本动漫角色 · 60 张</option><option value="replacement">本次替换素材 · 200 张</option><option value="expanded">保留摄影与插画 · 100 张</option></select>
+    <p class="input-help">文案保持原样；每张随机组合不同。通知栏 14 款、尺寸 5 种会轮换；关闭某项随机后，该项保持固定。</p>
+    <button class="button primary full" id="generate-download">一键生成并下载 5 张</button><button class="button outline full download-batch" id="generate">预览 5 张方案</button><button class="button outline full download-batch" id="export-batch">打包下载 ZIP</button>
+    <div id="progress-area" hidden><progress id="export-progress" max="100" value="0"></progress><div id="progress-text" class="input-help" role="status"></div></div>
+    <div class="privacy-note"><span>本地完成，安心编辑</span><p>文案和上传图片只在此浏览器处理，不上传服务器，无 AI 调用。</p><a href="/credits.html" target="_blank" rel="noopener">头像素材与开源说明</a></div>
+  </aside>
+</main>
+<dialog id="avatar-dialog"><div class="dialog-header"><div><span class="eyebrow">AVATAR LIBRARY</span><h2>选一个喜欢的头像</h2><p>已替换原来的 200 张模板头像，按题材混合展示全部 360 张。AI 写真人像为虚构角色。</p></div><button class="icon-close" id="close-library" aria-label="关闭头像库">×</button></div><div id="avatar-filters" class="avatar-filters"></div><div id="avatar-grid" class="avatar-grid"></div><div class="dialog-footer"><span id="library-count">共 360 个</span><a href="/credits.html" target="_blank" rel="noopener">素材来源与说明</a><span>点击头像即可应用</span></div></dialog>
+<dialog id="image-dialog"><button class="icon-close" id="close-image" aria-label="关闭大图">×</button><img id="full-image" alt="完整图片预览"></dialog>
+<dialog id="status-dialog" aria-labelledby="status-dialog-title"><div class="dialog-header"><div><span class="eyebrow">STATUS BAR STYLES</span><h2 id="status-dialog-title">选择顶部通知栏</h2><p>14 款模板，使用当前时间和电量预览。点击即可应用。</p></div><button class="icon-close" id="close-status-styles" aria-label="关闭通知栏风格">×</button></div><div id="status-grid" class="status-grid"></div><div class="dialog-footer"><span>参考手机截图制作；不同版本和设置会有差异。</span><a href="/statusbar-sources.html" target="_blank" rel="noopener">参考来源</a></div></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+</body></html>
