@@ -2,6 +2,14 @@
 
 在浏览器中粘贴文案、选择头像和手机画布，实时预览并导出朋友圈风格的长图。图片排版在浏览器本地完成，日常使用不调用 AI，也不需要数据库、API 密钥或付费服务。
 
+## 在线使用
+
+**[打开圈图 · GitHub Pages](https://schrieeeffer.github.io/moments-studio/)**
+
+网站由 GitHub Pages 免费托管，通过 HTTPS 访问。全部功能使用静态 HTML、CSS、JavaScript 和本地素材，不需要运行 Node.js 服务器；文案、上传图片与草稿仍在访问者自己的浏览器中处理。
+
+`.github/workflows/pages.yml` 在推送到 `main` 后自动发布 `public/`，也可在 Actions 中手动运行。Fork 后需在仓库 Settings → Pages 中选择 GitHub Actions。资源路径同时支持网站根目录和 `/仓库名/` 子目录，可直接用于其他项目站点；仓库中 README 的在线地址需自行更新。
+
 ## 功能
 
 - 360 张内置头像：232 张摄影、68 张一次性生成的 AI 图片、60 张日本动漫角色头像；支持 8 个分类和上传自己的头像。
@@ -75,6 +83,15 @@ python scripts/test_anime_avatars.py http://localhost:8088
 ```
 
 其他检查见 `scripts/test_status_bars.py`、`test_status_sprites.py` 和 `test_flexible_batch.py`，可使用相同的地址参数。测试导出保存在 `test-output/`，不加入 Git。
+
+验证纯静态子目录托管（两个终端分别运行）：
+
+```sh
+python scripts/serve-static-preview.py --port 17888 --prefix /moments-studio/
+python scripts/test_static_paths.py http://localhost:17888/moments-studio/
+```
+
+该预览只提供静态文件，不运行项目的 Node.js 服务。现有浏览器测试也可使用带子目录的地址。
 
 ## 项目结构
 

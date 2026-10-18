@@ -20,6 +20,7 @@ page=f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta nam
 <h2>日本动漫角色头像</h2><p>60 张，来自 AniList 角色资料库，涵盖 10 部作品。原角色及图片版权归相应权利人；来源记录不代表商业使用授权。未移除图片水印，仅选用原图没有明显水印的头像。</p><p><a href="/assets/anime-avatars.json">动漫头像来源清单</a></p><div class="credits-gallery">{animecards}</div>
 <h2>程序与隐私</h2><p>JSZip 按 MIT 许可使用。<a href="/assets/dependencies.json">依赖版本与许可清单</a>。头像、封面和文案仅在浏览器中处理。</p>
 <h2>摄影素材逐张来源</h2><div class="credits-gallery">{''.join(cards)}</div></main></body></html>'''
+page=page.replace('href="/','href="').replace('src="/','src="').replace('href=""','href="./"')
 (root/'public/credits.html').write_text(page,encoding='utf-8')
 for filename,rows in [('all-photo-avatars.json',photos),('all-generated-avatars.json',generated)]:
     (root/'public/assets'/filename).write_text(json.dumps(rows,ensure_ascii=False,indent=2),encoding='utf-8')

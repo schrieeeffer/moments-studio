@@ -5,8 +5,8 @@
   <meta name="description" content="粘贴文案，选择头像，预览并批量导出朋友圈推广排版。无需 AI。">
   <title>圈图 · 朋友圈排版工作台</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%230e7768'/%3E%3Cpath d='M11 12h18v13H19l-6 5v-5h-2z' fill='none' stroke='white' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="/style.css">
-  <script src="/assets/jszip.min.js" defer></script><script src="/status-bars.js" defer></script><script src="/app.js" defer></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="assets/jszip.min.js" defer></script><script src="status-bars.js" defer></script><script src="app.js" defer></script>
 </head>
 <body>
 <header class="topbar">
@@ -51,11 +51,11 @@
       <canvas id="status-preview" aria-label="当前顶部通知栏风格预览"></canvas>
       <p id="status-description" class="input-help"></p>
       <button class="button outline full" id="open-status-styles">查看并选择 14 款风格</button>
-      <p class="input-help"><span id="status-scope">批量逐张随机风格；手动选风格只修改当前方案。</span><a href="/statusbar-sources.html" target="_blank" rel="noopener">查看截图与参考来源</a></p>
+      <p class="input-help"><span id="status-scope">批量逐张随机风格；手动选风格只修改当前方案。</span><a href="statusbar-sources.html" target="_blank" rel="noopener">查看截图与参考来源</a></p>
     </div>
     <label for="size">画布尺寸</label><select id="size"><option value="1080,2340">1080 × 2340 · 19.5:9</option><option value="1080,2400">1080 × 2400 · 20:9</option><option value="1200,2670">1200 × 2670 · 长屏</option><option value="1170,2532">1170 × 2532 · 长屏</option><option value="1080,2520">1080 × 2520 · 21:9</option></select><p class="input-help">内容较长时自动延长画布，保留全部文字。</p>
     <label class="checkbox-line"><input id="watermark" type="checkbox" checked> 添加水印</label><p class="input-help">取消勾选后，预览和全部导出图片都不添加水印。</p>
-    <div class="library-card"><div class="library-stack"><img src="/assets/avatars/001.jpg" alt=""><img src="/assets/avatars/045.jpg" alt=""><img src="/assets/avatars/093.jpg" alt=""></div><strong id="avatar-total">360 个内置头像</strong><p>200 张已替换：写真人像、二次元、萌宠、风景、花草、静物与街景；另增 60 张日本动漫角色头像</p><button class="button outline full" id="open-library">浏览头像库</button></div>
+    <div class="library-card"><div class="library-stack"><img src="assets/avatars/001.jpg" alt=""><img src="assets/avatars/045.jpg" alt=""><img src="assets/avatars/093.jpg" alt=""></div><strong id="avatar-total">360 个内置头像</strong><p>200 张已替换：写真人像、二次元、萌宠、风景、花草、静物与街景；另增 60 张日本动漫角色头像</p><button class="button outline full" id="open-library">浏览头像库</button></div>
     <div class="section-title spaced">批量规则</div>
     <label for="batch-count">生成数量</label><input id="batch-count" type="number" min="1" max="50" step="1" value="5" inputmode="numeric" aria-describedby="batch-help"><p id="batch-help" class="input-help">可输入 1–50 张。手机建议每批不超过 20 张，电脑不超过 50 张；更多图片可分批生成。</p>
     <label>随机时间范围</label><div class="time-range"><input type="time" id="time-start" value="11:00" aria-label="随机时间下限"><span>—</span><input type="time" id="time-end" value="22:00" aria-label="随机时间上限"></div>
@@ -67,11 +67,11 @@
     <p class="input-help">文案保持原样；每张随机组合不同。通知栏 14 款、尺寸 5 种会轮换；关闭某项随机后，该项保持固定。</p>
     <button class="button primary full" id="generate-download">一键生成并下载 5 张</button><button class="button outline full download-batch" id="generate">预览 5 张方案</button><button class="button outline full download-batch" id="export-batch">打包下载 ZIP</button>
     <div id="progress-area" hidden><progress id="export-progress" max="100" value="0"></progress><div id="progress-text" class="input-help" role="status"></div></div>
-    <div class="privacy-note"><span>本地完成，安心编辑</span><p>文案和上传图片只在此浏览器处理，不上传服务器，无 AI 调用。</p><a href="/credits.html" target="_blank" rel="noopener">头像素材与开源说明</a></div>
+    <div class="privacy-note"><span>本地完成，安心编辑</span><p>文案和上传图片只在此浏览器处理，不上传服务器，无 AI 调用。</p><a href="credits.html" target="_blank" rel="noopener">头像素材与开源说明</a></div>
   </aside>
 </main>
-<dialog id="avatar-dialog"><div class="dialog-header"><div><span class="eyebrow">AVATAR LIBRARY</span><h2>选一个喜欢的头像</h2><p>已替换原来的 200 张模板头像，按题材混合展示全部 360 张。AI 写真人像为虚构角色。</p></div><button class="icon-close" id="close-library" aria-label="关闭头像库">×</button></div><div id="avatar-filters" class="avatar-filters"></div><div id="avatar-grid" class="avatar-grid"></div><div class="dialog-footer"><span id="library-count">共 360 个</span><a href="/credits.html" target="_blank" rel="noopener">素材来源与说明</a><span>点击头像即可应用</span></div></dialog>
+<dialog id="avatar-dialog"><div class="dialog-header"><div><span class="eyebrow">AVATAR LIBRARY</span><h2>选一个喜欢的头像</h2><p>已替换原来的 200 张模板头像，按题材混合展示全部 360 张。AI 写真人像为虚构角色。</p></div><button class="icon-close" id="close-library" aria-label="关闭头像库">×</button></div><div id="avatar-filters" class="avatar-filters"></div><div id="avatar-grid" class="avatar-grid"></div><div class="dialog-footer"><span id="library-count">共 360 个</span><a href="credits.html" target="_blank" rel="noopener">素材来源与说明</a><span>点击头像即可应用</span></div></dialog>
 <dialog id="image-dialog"><button class="icon-close" id="close-image" aria-label="关闭大图">×</button><img id="full-image" alt="完整图片预览"></dialog>
-<dialog id="status-dialog" aria-labelledby="status-dialog-title"><div class="dialog-header"><div><span class="eyebrow">STATUS BAR STYLES</span><h2 id="status-dialog-title">选择顶部通知栏</h2><p>14 款模板，使用当前时间和电量预览。点击即可应用。</p></div><button class="icon-close" id="close-status-styles" aria-label="关闭通知栏风格">×</button></div><div id="status-grid" class="status-grid"></div><div class="dialog-footer"><span>参考手机截图制作；不同版本和设置会有差异。</span><a href="/statusbar-sources.html" target="_blank" rel="noopener">参考来源</a></div></dialog>
+<dialog id="status-dialog" aria-labelledby="status-dialog-title"><div class="dialog-header"><div><span class="eyebrow">STATUS BAR STYLES</span><h2 id="status-dialog-title">选择顶部通知栏</h2><p>14 款模板，使用当前时间和电量预览。点击即可应用。</p></div><button class="icon-close" id="close-status-styles" aria-label="关闭通知栏风格">×</button></div><div id="status-grid" class="status-grid"></div><div class="dialog-footer"><span>参考手机截图制作；不同版本和设置会有差异。</span><a href="statusbar-sources.html" target="_blank" rel="noopener">参考来源</a></div></dialog>
 <div id="toast" role="status" aria-live="polite"></div>
 </body></html>

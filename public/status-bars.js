@@ -24,7 +24,7 @@
   function ready(){
     if(!loading)loading=Promise.all([
       ...['ios','xiaomi','xiaomi-single','huawei','huawei-single','oppo','vivo','honor'].map(key=>new Promise((resolve,reject)=>{
-        const img=new Image();img.onload=()=>{images.set(key,img);resolve();};img.onerror=()=>reject(new Error('通知栏素材未能载入'));img.src=`/assets/status-bars-v2/${key}.png`;
+        const img=new Image();img.onload=()=>{images.set(key,img);resolve();};img.onerror=()=>reject(new Error('通知栏素材未能载入'));img.src=`assets/status-bars-v2/${key}.png`;
       })),
       document.fonts.load('650 20px StatusInter','0123456789:'),
       document.fonts.load('550 17px StatusRoboto','0123456789:%'),
